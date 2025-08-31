@@ -2,6 +2,7 @@ package miu.edu.artifact;
 
 import java.util.List;
 import miu.edu.artifact.utils.IdWorker;
+import miu.edu.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class ArtifactService {
 
   public Artifact findById(String id) {
     return artifactRepository.findById(id)
-        .orElseThrow(() -> new ArtifactNotFoundException(id));
+        .orElseThrow(() -> new ObjectNotFoundException("Artifact", id));
   }
 
   public List<Artifact> findAll() {
@@ -39,7 +40,7 @@ public class ArtifactService {
       oldArtifact.setOwner(artifact.getOwner());
       return artifactRepository.save(oldArtifact);
     })
-        .orElseThrow(() -> new ArtifactNotFoundException(artifactId));
+        .orElseThrow(() -> new ObjectNotFoundException("Artifact", artifactId));
   }
 
   public void delete(String artifactId) {

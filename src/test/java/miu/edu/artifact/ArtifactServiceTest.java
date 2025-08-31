@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import miu.edu.artifact.utils.IdWorker;
+import miu.edu.exception.ObjectNotFoundException;
 import miu.edu.wizard.Wizard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 
 @ExtendWith(MockitoExtension.class)
 class ArtifactServiceTest {
@@ -94,8 +96,8 @@ class ArtifactServiceTest {
     });
     //Then
     assertThat(thrown).
-        isInstanceOf(ArtifactNotFoundException.class)
-        .hasMessage("Could not find artifact with Id 1250808601744904192");
+        isInstanceOf(ObjectNotFoundException.class)
+        .hasMessage("Could not find Artifact with Id 1250808601744904192");
     //we verify this mock object's method is called once inside the service object
     verify(artifactRepository, times(1)).findById("1250808601744904192");
   }
@@ -165,7 +167,7 @@ class ArtifactServiceTest {
     update.setImageUrl("https://www.invisibilitycloak.com");
     given(artifactRepository.findById("1250808601744904192")).willReturn(Optional.empty());
 
-    assertThrows(ArtifactNotFoundException.class, () -> {
+    assertThrows(ObjectNotFoundException.class, () -> {
       artifactService.update("1250808601744904192", update);
     });
 
@@ -193,7 +195,7 @@ class ArtifactServiceTest {
     //Given
     given(artifactRepository.findById("123456")).willReturn(Optional.empty());
     //When
-    assertThrows(ArtifactNotFoundException.class, () -> {
+    assertThrows(ObjectNotFoundException.class, () -> {
       artifactService.delete("123456");
     });
     //Then

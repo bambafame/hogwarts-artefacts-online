@@ -1,9 +1,7 @@
 package miu.edu.artifact;
 
 import jakarta.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import miu.edu.artifact.converter.ArtifactDtoToArtifactConverter;
 import miu.edu.artifact.converter.ArtifactToArtifactDtoConverter;
 import miu.edu.dto.ArtifactDto;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/artifacts")
+@RequestMapping("${api.endpoint.base-url}/artifacts")
 public class ArtifactController {
 
   private final ArtifactService artifactService;
