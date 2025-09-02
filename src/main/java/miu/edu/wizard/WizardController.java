@@ -2,6 +2,7 @@ package miu.edu.wizard;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import miu.edu.dto.ArtifactDto;
 import miu.edu.dto.WizardDto;
 import miu.edu.system.Result;
 import miu.edu.system.StatusCode;
@@ -63,6 +64,12 @@ public class WizardController {
   public Result deleteWizard(@PathVariable Integer wizardId) {
     wizardService.delete(wizardId);
     return new Result(true, StatusCode.SUCCESS, "Delete Success");
+  }
+
+  @PutMapping("/{wizardId}/artifacts/{artifactId}")
+  public Result assignArtifact(@PathVariable Integer wizardId, @PathVariable String artifactId) {
+    wizardService.assignArtifact(wizardId, artifactId);
+    return new Result(true, StatusCode.SUCCESS, "Artifact Assignment Success");
   }
 
 }
