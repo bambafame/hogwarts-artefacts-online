@@ -65,4 +65,10 @@ public class Wizard implements Serializable {
     this.artifacts.stream().forEach(ar -> ar.setOwner(null));
     this.artifacts = null;
   }
+
+  public void removeArtifact(Artifact artifactToBeAssigned) {
+    //This is a bidirectional relationship we need to remove in both sides
+    artifactToBeAssigned.setOwner(null);
+    this.artifacts.remove(artifactToBeAssigned);
+  }
 }

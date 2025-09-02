@@ -2,6 +2,8 @@ package miu.edu.wizard;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import miu.edu.artifact.Artifact;
+import miu.edu.artifact.ArtifactRepository;
 import miu.edu.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class WizardService {
 
   private final WizardRepository wizardRepository;
+  private final ArtifactRepository artifactRepository;
 
-  public WizardService(WizardRepository wizardRepository) {
+  public WizardService(WizardRepository wizardRepository, ArtifactRepository artifactRepository) {
     this.wizardRepository = wizardRepository;
+    this.artifactRepository = artifactRepository;
   }
 
   public  Wizard findById(Integer id) {
@@ -38,6 +42,17 @@ public class WizardService {
     Wizard wizard = findById(id);
     wizard.removeArtifacts();
     wizardRepository.deleteById(id);
+  }
+
+  public void assignArtifact(Integer wizardId, String artifactId) {
+    Artifact artifactToBeAssigned = artifactRepository.findById(artifactId).orElseThrow(() -> new ObjectNotFoundException("Artifact", String.valueOf(artifactId)));
+
+    Wizard wizard = findById(wizardId);
+    //We need to see if the artifact is already owned by a wizard
+    if(artifactToBeAssigned.getOwner() != null) {
+      artifactToBeAssigned.getOwner().removeArtifact(artifactToBeAssigned);
+    }
+    wizard.addArtifact(artifactToBeAssigned);
   }
 
 }
