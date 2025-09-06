@@ -1,6 +1,8 @@
 package miu.edu.system;
 
 import miu.edu.artifact.Artifact;
+import miu.edu.user.HogwartsUser;
+import miu.edu.user.UserRepository;
 import miu.edu.wizard.Wizard;
 import miu.edu.wizard.WizardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,34 @@ public class DBInitializer implements CommandLineRunner {
 
   @Autowired
   private WizardRepository wizardRepository;
+  @Autowired
+  private UserRepository userRepository;
 
   @Override
   public void run(String... args) throws Exception {
+    //Users
+    HogwartsUser u1 = new HogwartsUser();
+    u1.setPassword("123456");
+    u1.setUsername("eric");
+    u1.setEnabled(true);
+    u1.setRoles("User");
+
+    HogwartsUser u2 = new HogwartsUser();
+    u2.setPassword("password");
+    u2.setUsername("cheikh");
+    u2.setEnabled(true);
+    u2.setRoles("Admin User");
+
+    HogwartsUser u3 = new HogwartsUser();
+    u3.setPassword("qwerty");
+    u3.setUsername("tom");
+    u3.setEnabled(true);
+    u3.setRoles("User");
+
+    userRepository.save(u1);
+    userRepository.save(u2);
+    userRepository.save(u3);
+
     // --- Wizards ---
     Wizard merlin = new Wizard();
     merlin.setName("Merlin the Wise");
